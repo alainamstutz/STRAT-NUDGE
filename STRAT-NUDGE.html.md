@@ -179,8 +179,6 @@ Total trial sample size (2-arm trial): 300
 :::
 
 
-A reduction of at least 37% percentage points represents a Cohen's h of \>0.7 =\> large effect
-
 # **(1) Sample size calculation CRT: formula-based**
 
 Add the design effect (DEFF) to the individual RCT sample size. The usual standard DEFF formula:
