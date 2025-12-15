@@ -43,37 +43,37 @@ Nuding intervention on the level of SHCS physicians at SHCS sites in Switzerland
 
     -   We estimate that:
 
-        -   Across all eligible patients (no IGRA and no TB history in past), we estimate an IGRA testing rate of 60% on average across all physician-clusters, higher among the 10% high-risk and lower among the 90% low-risk, e.g.:
+        -   We estimate an IGRA testing rate of 45% on average across all physician-clusters, higher among the 10% high-risk and lower among the 90% low-risk, e.g.:
 
-        -   High-risk: 90%, Low-risk: 57% =\> Overall: 0.1\*(0.9) + 0.9\*(0.57) = 60%
+        -   High-risk: 90%, Low-risk: 40% =\> Overall: 0.1\*(0.9) + 0.9\*(0.40) = 45%
 
-        -   That means 90% (of the 10% high-risk) are correctly tested and 43% (of the 90% low-risk) are correctly NOT tested at the moment =\> Overall: 0.1\*(0.9) + 0.9\*(0.43) = 47.7%
+        -   That means 90% (of the 10% high-risk) are correctly tested and 60% (of the 90% low-risk) are correctly NOT tested at the moment =\> Overall: 0.1\*(0.9) + 0.9\*(0.60) = 63%
 
-        -   =\> we estimate a baseline outcome rate of 48%
+        -   =\> we estimate a baseline outcome rate of 63%
 
--   Expected outcome in interventiona and delta:
+-   Expected outcome in intervention, and delta:
 
-    -   We estimate that we can increase the strata-specific success outcome rate to:
+    -   We estimate that we can increase the strata-tailored success outcome rate to:
 
-        -   95% (of the 10% high-risk) are correctly tested and 60% (of the 90% low-risk) are correctly NOT tested =\> Overall: 0.1\*(0.95) + 0.9\*(0.6) = 63.5%
+        -   95% (of the 10% high-risk) are correctly tested and 80% (of the 90% low-risk) are correctly NOT tested =\> Overall: 0.1\*(0.95) + 0.9\*(0.8) = 81.5%
 
-        -   =\> we estimate an outcome rate of 64% in intervention
+        -   =\> we estimate an outcome rate of 81% in intervention
 
-        -   =\> delta of 64-48 = 16 absolute percentage points
+        -   =\> delta of 81-63 = 18 absolute percentage points
 
 -   Cluster size (m) of eligible overall participants (6m recruitment period):
 
-    -   100-200 participants per physician-cluster over the entire 6m period
+    -   on average 18 eligible participants per physician-cluster over a 6m period
 
 -   CV (coefficient of variation), ratio of standard deviation of cluster sizes to mean of cluster sizes:
 
-    -   xxx 0.4 for now xxx
+    -   0.98
 
--   ICC for the primary outcome: 0.10 to 0.20 (behavioural intervention/outcome)
+-   ICC for the primary outcome: 0.20 (behavioural intervention/outcome)
 
--   Max. 110 clusters, i.e. max. 55 clusters per arm, due to cohort
+-   Max. ca. 90 eligible clusters, i.e. 45 clusters per arm, due to cohort
 
--   Min. desired power 90%, two-sided alpha of 0.05
+-   Min. desired power 80%, two-sided alpha of 0.05
 
 -   1:1 allocation
 
@@ -120,8 +120,8 @@ Sample size for the individual randomized trial on the same question
 
 ```{r}
 # Parameters
-p_C <- 0.48
-p_I <- 0.64 
+p_C <- 0.63
+p_I <- 0.81
 power <- 0.80 
 ICC <- 0.20
 alpha <- 0.05
@@ -151,14 +151,14 @@ DEFF_cv = 1+((m(1+CV\^2)−1))ICC , whereby CV is the coefficient of variation (
 
 ```{r}
 # Parameters
-p_C <- 0.48
-p_I <- 0.64  
-power <- 0.90 
+p_C <- 0.63
+p_I <- 0.81  
+power <- 0.80 
 ICC <- 0.20
 alpha <- 0.05
 
-m <- 100 # average cluster size
-CV <- 0.4 # CV
+m <- 18 # average cluster size
+CV <- 0.98 # CV
 
 deff <- 1+(m-1)*ICC # standard DEFF
 deff_cv <- 1+((m*(1+CV^2))-1)*ICC # DEFF with cluster size variation
@@ -189,15 +189,15 @@ cat("Total individual sample size:", tot_ind, "\n")
 Assuming same delta, but varying baseline control rates, all other parameters fixed
 
 ```{r}
-power <- 0.90
+power <- 0.80
 alpha <- 0.05
 ICC <- 0.20
-CV <- 0.4
-m <- 100
-delta <- 0.16 # 16 percentage points
+CV <- 0.98
+m <- 18
+delta <- 0.18
 
 # Baseline control rates
-p_C_values <- seq(0.30, 0.60, by = 0.05)
+p_C_values <- seq(0.30, 0.80, by = 0.05)
 
 results_df <- data.frame(
   p_C = numeric(),
@@ -250,7 +250,7 @@ ggplot(results_df, aes(x = p_C, y = n_clusters_per_arm * 2)) +
   ) +
   theme_minimal() +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1),
-                     breaks = seq(0.30, 0.60, by = 0.05)) +
+                     breaks = seq(0.30, 0.80, by = 0.05)) +
   scale_y_continuous(breaks = seq(0, max(results_df$n_clusters_per_arm * 2), by = 1))
 
 ```
@@ -266,7 +266,7 @@ ggplot(results_df, aes(x = p_C, y = n_individuals_per_arm * 2)) +
   ) +
   theme_minimal() +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1),
-                     breaks = seq(0.30, 0.60, by = 0.05)) +
+                     breaks = seq(0.30, 0.80, by = 0.05)) +
   scale_y_continuous(breaks = seq(0, max(results_df$n_individuals_per_arm * 2), by = 50))
 
 ```
@@ -276,12 +276,12 @@ ggplot(results_df, aes(x = p_C, y = n_individuals_per_arm * 2)) +
 Varying ICC, all other parameters fixed
 
 ```{r}
-power <- 0.90
+power <- 0.80
 alpha <- 0.05
-p_C <- 0.48 
-m <- 100
-CV <- 0.4
-delta <- 0.16 # 16 percentage points
+p_C <- 0.63 
+m <- 18
+CV <- 0.98
+delta <- 0.18 # 16 percentage points
 
 # Range of ICC values to test
 ICC_values <- seq(0.05, 0.35, by = 0.01)
@@ -481,11 +481,11 @@ generate_cluster_sizes <- function(n_clusters, m, CV){
 }
 
 # Parameters for single simulated dataset
-n_clusters <- 110
-m_mean <- 100
-CV <- 0.4
-p0 <- 0.48
-p1 <- 0.64
+n_clusters <- 84
+m_mean <- 18
+CV <- 0.98
+p0 <- 0.63
+p1 <- 0.82
 OR <- p0_p1_to_OR(p0, p1) # compute OR
 rho <- 0.20 # ICC
 re_dist <- "gamma"
@@ -548,14 +548,14 @@ NOTES:
 ### **(2.3.1) Create function**
 
 ```{r}
-simulate_power <- function(n_clusters = 110, 
-                           m_mean = 100, 
-                           CV = 0.4,
-                           p0 = 0.48, 
-                           p1 = 0.64, 
+simulate_power <- function(n_clusters = 84, 
+                           m_mean = 18, 
+                           CV = 0.98,
+                           p0 = 0.63, 
+                           p1 = 0.81, 
                            rho = 0.20,
                            re_dist = "gamma", 
-                           n_sim = 500,
+                           n_sim = 1000,
                            alpha = 0.05, 
                            seed = 20250809) {
   set.seed(seed)
@@ -599,11 +599,11 @@ simulate_power <- function(n_clusters = 110,
 ### **(2.3.2)** Calculate baseline scenario
 
 ```{r}
-power_estimate <- simulate_power(n_clusters = 110,
-                                 m_mean = 100,
-                                 CV = 0.4,
-                                 p0 = 0.48,
-                                 p1 = 0.64,
+power_estimate <- simulate_power(n_clusters = 84,
+                                 m_mean = 18,
+                                 CV = 0.98,
+                                 p0 = 0.63,
+                                 p1 = 0.81,
                                  rho = 0.20,
                                  re_dist = "gamma",
                                  n_sim = 1000)
@@ -623,9 +623,9 @@ grid <- expand.grid(p0 = p0_vals, p1 = p1_vals)
 
 results <- grid %>%
   rowwise() %>%
-  mutate(power = simulate_power(n_clusters = 110,
-                                m_mean = 100,
-                                CV = 0.4,
+  mutate(power = simulate_power(n_clusters = 84,
+                                m_mean = 18,
+                                CV = 0.98,
                                 p0 = p0,
                                 p1 = p1,
                                 rho = 0.2,
@@ -660,15 +660,15 @@ ggplot(results, aes(x = p1, y = power, color = factor(p0))) +
 
 ```{r}
 # Vector of ICC values to test
-icc_values <- seq(0.05, 0.35, by = 0.02)
+icc_values <- seq(0.05, 0.45, by = 0.02)
 
 # Run power simulations for each ICC
 power_results <- sapply(icc_values, function(rho) {
-  simulate_power(n_clusters = 110,
-                 m_mean = 100,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+  simulate_power(n_clusters = 84,
+                 m_mean = 18,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = rho,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -697,15 +697,15 @@ ggplot(df_power_icc, aes(x = ICC, y = Power)) +
 
 ```{r}
 # Vector of cluster counts to test
-n_clusters_vec <- seq(80, 120, by = 1)
+n_clusters_vec <- seq(30, 110, by = 1)
 
 # Run power simulations for each cluster count
 power_results <- sapply(n_clusters_vec, function(nc) {
   simulate_power(n_clusters = nc,
-                 m_mean = 100,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+                 m_mean = 18,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = 0.20,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -723,10 +723,10 @@ ggplot(df_power_css, aes(x = Cluster_ss, y = Power)) +
   labs(title = "Power vs Number of total clusters",
        x = "Total number of clusters",
        y = "Estimated power") +
-  scale_y_continuous(breaks = seq(0.70, 1, by = 0.1),
-                     limits = c(0.70, 1),
+  scale_y_continuous(breaks = seq(0.50, 1, by = 0.1),
+                     limits = c(0.50, 1),
                      labels = scales::percent_format(accuracy = 1)) +
-  scale_x_continuous(breaks = seq(80, 120, by = 2)) +
+  scale_x_continuous(breaks = seq(30, 110, by = 5)) +
   theme_minimal()
 
 ```
@@ -735,15 +735,15 @@ ggplot(df_power_css, aes(x = Cluster_ss, y = Power)) +
 
 ```{r}
 #| warning: false
-m_mean_vec <- seq(50, 250, by = 10)
+m_mean_vec <- seq(2, 40, by = 2)
 
 # Run power simulations for each cluster count
 power_results <- sapply(m_mean_vec, function(n) {
-  simulate_power(n_clusters = 110,
+  simulate_power(n_clusters = 84,
                  m_mean = n,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = 0.20,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -758,13 +758,13 @@ df_power_iss <- data.frame(Individual_ss = m_mean_vec, Power = power_results)
 ggplot(df_power_iss, aes(x = Individual_ss, y = Power)) +
   geom_line(color = "darkblue", size = 1.2) +
   geom_point(color = "skyblue") +
-  labs(title = "Power vs Number of total individuals",
-       x = "Total number of individuals",
+  labs(title = "Power vs Average number of individuals per cluster",
+       x = "Average number of individuals per cluster",
        y = "Estimated power") +
   scale_y_continuous(breaks = seq(0.70, 1, by = 0.1),
                      limits = c(0.70, 1),
                      labels = scales::percent_format(accuracy = 1)) +
-  scale_x_continuous(breaks = seq(50, 250, by = 10)) +
+  scale_x_continuous(breaks = seq(2, 40, by = 2)) +
   theme_minimal()
 
 ```
@@ -775,18 +775,18 @@ ggplot(df_power_iss, aes(x = Individual_ss, y = Power)) +
 
 -   As per trial protocol
 
--   \>50 clusters per arm =\> cluster number large enough to use normal GLMM (not with restricted pseudo-likelihood and reduced degree of freedom as per guidance according to Thompson & Leyrat & al)
+-   84 clusters in total, 42 per arm =\> cluster number large enough to use normal GLMM (not with restricted pseudo-likelihood and reduced degree of freedom as per guidance according to Thompson & Leyrat & al)
 
 -   Keep gamma distribution throughout
 
 ### **(2.4.1) Create function**
 
 ```{r}
-simulate_power_glmer <- function(n_clusters = 110, 
-                                   m_mean = 100, 
-                                   CV = 0.4,
-                                   p0 = 0.48, 
-                                   p1 = 0.64, 
+simulate_power_glmer <- function(n_clusters = 84, 
+                                   m_mean = 18, 
+                                   CV = 0.98,
+                                   p0 = 0.63, 
+                                   p1 = 0.81, 
                                    rho = 0.20,
                                    re_dist = "gamma", 
                                    n_sim = 1000,
@@ -847,17 +847,20 @@ simulate_power_glmer <- function(n_clusters = 110,
 ### **(2.4.2)** Calculate baseline scenario
 
 ```{r}
-power_estimate <- simulate_power_glmer(n_clusters = 110,
-                                         m_mean = 100,
-                                         CV = 0.4,
-                                         p0 = 0.48,
-                                         p1 = 0.64,
+#| warning: false
+power_estimate <- simulate_power_glmer(n_clusters = 84,
+                                         m_mean = 18,
+                                         CV = 0.98,
+                                         p0 = 0.63,
+                                         p1 = 0.81,
                                          rho = 0.20,
                                          re_dist = "gamma",
                                          n_sim = 1000)
 
 cat("Estimated power (GLMM):", round(power_estimate, 3), "\n")
 ```
+
+Currently, the cluster size variation (CV = 0.98) is too high, estimation is imprecise. We need to work on refining the eligibility criteria for the clusters (physicians)
 
 ### **(2.4.3) Vary effect sizes**
 
@@ -1019,11 +1022,11 @@ cat("Estimated power (GLMM):", round(power_estimate, 3), "\n")
 
 ## General parameters
 set.seed(20250809)
-n_clusters <- 110
-m_mean <- 100
-CV <- 0.4
-p0 <- 0.48
-p1 <- 0.65
+n_clusters <- 84
+m_mean <- 18
+CV <- 0.98
+p0 <- 0.63
+p1 <- 0.81
 OR <- p0_p1_to_OR(p0, p1)
 rho <- 0.20 # ICC (on latent logit scale)
 re_dist <- "gamma" # distribution for u_j, keep it conservative
@@ -1031,7 +1034,7 @@ re_dist <- "gamma" # distribution for u_j, keep it conservative
 # Individual-level covariates
 age_mean <- 35
 age_sd <- 12
-sex_prob <- 0.48
+sex_prob <- 0.40
 
 ## Generate cluster structure
 sizes <- generate_cluster_sizes(n_clusters, m_mean, CV)
@@ -1234,7 +1237,10 @@ results_table %>%
 
 ```
 
-CAVE: This is 1 randomly simulated dataset.
+CAVE:
+
+1.  This is 1 randomly simulated dataset.
+2.  Add third individual-level covariate (region of origin)
 
 Due to correlation structure the adjustment for baseline outcome rate (part of the stratification factors) increases power and precision. The further adjustment for individual-level covariates does not change much, since there is no simulated correlation at that level.
 
@@ -1246,19 +1252,19 @@ RR only constructed for primary model (fully adjusted model)
 
 ```{r}
 simulate_crt <- function(
-  n_clusters = 110,
-  m_mean = 100,
-  CV = 0.4,
-  p0 = 0.48,
-  p1 = 0.64,
-  rho = 0.2,
+  n_clusters = 84,
+  m_mean = 18,
+  CV = 0.98,
+  p0 = 0.63,
+  p1 = 0.81,
+  rho = 0.20,
   re_dist = "gamma",
   alpha = 0.3, # weak-moderate correlation between u_j and baseline outcome rate
   tau = 0.45, # SD of baseline noise
   beta_baseline = 0.2, # weak-moderate pos correlation: baseline outcome rate -> outcome, independent of u_j
   age_mean = 35,
   age_sd = 12,
-  sex_prob = 0.48
+  sex_prob = 0.40
 ){
 
   # (1) Compute OR and intercept
@@ -1435,6 +1441,8 @@ summary(results[,c("OR_unadj","OR_unadj_lower","OR_unadj_upper",
 
 ```
 
+Currently, the cluster size variation (CV = 0.98) is too high, estimation is imprecise (and SE too narrow). We need to work on refining the eligibility criteria for the clusters (physicians)
+
 # **(4) Stratified randomization algorithm**
 
 ## **(4.1) Covariate-constrained randomization**
@@ -1443,7 +1451,7 @@ If we use batch-randomization (all clusters randomized at once and no new cluste
 
 -   Exact 1:1 overall allocation:
 
-    -   55 Control / 55 Intervention
+    -   42 Control / 42 Intervention
 
 -   Soft site stratification:
 
@@ -1462,7 +1470,7 @@ If we use batch-randomization (all clusters randomized at once and no new cluste
 ```{r}
 set.seed(20250820)
 
-n_clusters <- 110
+n_clusters <- 84
 site <- factor(sample(
   1:7, n_clusters, replace = TRUE,
   prob = c(0.05, 0.15, 0.20, 0.10, 0.15, 0.25, 0.10)
@@ -1470,7 +1478,7 @@ site <- factor(sample(
 
 cluster_data <- data.frame(
   cluster_id = 1:n_clusters,
-  baseline_rate = runif(n_clusters, 0.45, 0.75),
+  baseline_rate = runif(n_clusters, 0.35, 0.65),
   site = site
 )
 

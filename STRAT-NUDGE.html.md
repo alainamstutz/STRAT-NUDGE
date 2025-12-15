@@ -43,37 +43,37 @@ Nuding intervention on the level of SHCS physicians at SHCS sites in Switzerland
 
     -   We estimate that:
 
-        -   Across all eligible patients (no IGRA and no TB history in past), we estimate an IGRA testing rate of 60% on average across all physician-clusters, higher among the 10% high-risk and lower among the 90% low-risk, e.g.:
+        -   We estimate an IGRA testing rate of 45% on average across all physician-clusters, higher among the 10% high-risk and lower among the 90% low-risk, e.g.:
 
-        -   High-risk: 90%, Low-risk: 57% =\> Overall: 0.1\*(0.9) + 0.9\*(0.57) = 60%
+        -   High-risk: 90%, Low-risk: 40% =\> Overall: 0.1\*(0.9) + 0.9\*(0.40) = 45%
 
-        -   That means 90% (of the 10% high-risk) are correctly tested and 43% (of the 90% low-risk) are correctly NOT tested at the moment =\> Overall: 0.1\*(0.9) + 0.9\*(0.43) = 47.7%
+        -   That means 90% (of the 10% high-risk) are correctly tested and 60% (of the 90% low-risk) are correctly NOT tested at the moment =\> Overall: 0.1\*(0.9) + 0.9\*(0.60) = 63%
 
-        -   =\> we estimate a baseline outcome rate of 48%
+        -   =\> we estimate a baseline outcome rate of 63%
 
--   Expected outcome in interventiona and delta:
+-   Expected outcome in intervention, and delta:
 
-    -   We estimate that we can increase the strata-specific success outcome rate to:
+    -   We estimate that we can increase the strata-tailored success outcome rate to:
 
-        -   95% (of the 10% high-risk) are correctly tested and 60% (of the 90% low-risk) are correctly NOT tested =\> Overall: 0.1\*(0.95) + 0.9\*(0.6) = 63.5%
+        -   95% (of the 10% high-risk) are correctly tested and 80% (of the 90% low-risk) are correctly NOT tested =\> Overall: 0.1\*(0.95) + 0.9\*(0.8) = 81.5%
 
-        -   =\> we estimate an outcome rate of 64% in intervention
+        -   =\> we estimate an outcome rate of 81% in intervention
 
-        -   =\> delta of 64-48 = 16 absolute percentage points
+        -   =\> delta of 81-63 = 18 absolute percentage points
 
 -   Cluster size (m) of eligible overall participants (6m recruitment period):
 
-    -   100-200 participants per physician-cluster over the entire 6m period
+    -   on average 18 eligible participants per physician-cluster over a 6m period
 
 -   CV (coefficient of variation), ratio of standard deviation of cluster sizes to mean of cluster sizes:
 
-    -   xxx 0.4 for now xxx
+    -   0.98
 
--   ICC for the primary outcome: 0.10 to 0.20 (behavioural intervention/outcome)
+-   ICC for the primary outcome: 0.20 (behavioural intervention/outcome)
 
--   Max. 110 clusters, i.e. max. 55 clusters per arm, due to cohort
+-   Max. ca. 90 eligible clusters, i.e. 45 clusters per arm, due to cohort
 
--   Min. desired power 90%, two-sided alpha of 0.05
+-   Min. desired power 80%, two-sided alpha of 0.05
 
 -   1:1 allocation
 
@@ -126,8 +126,8 @@ Sample size for the individual randomized trial on the same question
 
 ```{.r .cell-code}
 # Parameters
-p_C <- 0.48
-p_I <- 0.64 
+p_C <- 0.63
+p_I <- 0.81
 power <- 0.80 
 ICC <- 0.20
 alpha <- 0.05
@@ -140,7 +140,7 @@ cat("Cohen's h for Intervention vs Control:", round(h_I_C, 3), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Cohen's h for Intervention vs Control: 0.324 
+Cohen's h for Intervention vs Control: 0.406 
 ```
 
 
@@ -158,7 +158,7 @@ cat("Sample size per arm:", n_per_arm, "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Sample size per arm: 150 
+Sample size per arm: 96 
 ```
 
 
@@ -171,7 +171,7 @@ cat("Total trial sample size (2-arm trial):", n_total)
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Total trial sample size (2-arm trial): 300
+Total trial sample size (2-arm trial): 192
 ```
 
 
@@ -194,14 +194,14 @@ DEFF_cv = 1+((m(1+CV\^2)−1))ICC , whereby CV is the coefficient of variation (
 
 ```{.r .cell-code}
 # Parameters
-p_C <- 0.48
-p_I <- 0.64  
-power <- 0.90 
+p_C <- 0.63
+p_I <- 0.81  
+power <- 0.80 
 ICC <- 0.20
 alpha <- 0.05
 
-m <- 100 # average cluster size
-CV <- 0.4 # CV
+m <- 18 # average cluster size
+CV <- 0.98 # CV
 
 deff <- 1+(m-1)*ICC # standard DEFF
 deff_cv <- 1+((m*(1+CV^2))-1)*ICC # DEFF with cluster size variation
@@ -221,7 +221,7 @@ cat("Cluster sample size int arm 1:", n_clusters, "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Cluster sample size int arm 1: 49 
+Cluster sample size int arm 1: 42 
 ```
 
 
@@ -234,7 +234,7 @@ cat("Individual sample size int arm 1:", ss_crt, "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Individual sample size int arm 1: 4811 
+Individual sample size int arm 1: 750 
 ```
 
 
@@ -250,7 +250,7 @@ cat("Total cluster sample size:", tot_clusters, "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Total cluster sample size: 98 
+Total cluster sample size: 84 
 ```
 
 
@@ -263,7 +263,7 @@ cat("Total individual sample size:", tot_ind, "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Total individual sample size: 9622 
+Total individual sample size: 1500 
 ```
 
 
@@ -281,15 +281,15 @@ Assuming same delta, but varying baseline control rates, all other parameters fi
 ::: {.cell}
 
 ```{.r .cell-code}
-power <- 0.90
+power <- 0.80
 alpha <- 0.05
 ICC <- 0.20
-CV <- 0.4
-m <- 100
-delta <- 0.16 # 16 percentage points
+CV <- 0.98
+m <- 18
+delta <- 0.18
 
 # Baseline control rates
-p_C_values <- seq(0.30, 0.60, by = 0.05)
+p_C_values <- seq(0.30, 0.80, by = 0.05)
 
 results_df <- data.frame(
   p_C = numeric(),
@@ -346,7 +346,7 @@ ggplot(results_df, aes(x = p_C, y = n_clusters_per_arm * 2)) +
   ) +
   theme_minimal() +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1),
-                     breaks = seq(0.30, 0.60, by = 0.05)) +
+                     breaks = seq(0.30, 0.80, by = 0.05)) +
   scale_y_continuous(breaks = seq(0, max(results_df$n_clusters_per_arm * 2), by = 1))
 ```
 
@@ -370,7 +370,7 @@ ggplot(results_df, aes(x = p_C, y = n_individuals_per_arm * 2)) +
   ) +
   theme_minimal() +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1),
-                     breaks = seq(0.30, 0.60, by = 0.05)) +
+                     breaks = seq(0.30, 0.80, by = 0.05)) +
   scale_y_continuous(breaks = seq(0, max(results_df$n_individuals_per_arm * 2), by = 50))
 ```
 
@@ -388,12 +388,12 @@ Varying ICC, all other parameters fixed
 ::: {.cell}
 
 ```{.r .cell-code}
-power <- 0.90
+power <- 0.80
 alpha <- 0.05
-p_C <- 0.48 
-m <- 100
-CV <- 0.4
-delta <- 0.16 # 16 percentage points
+p_C <- 0.63 
+m <- 18
+CV <- 0.98
+delta <- 0.18 # 16 percentage points
 
 # Range of ICC values to test
 ICC_values <- seq(0.05, 0.35, by = 0.01)
@@ -616,11 +616,11 @@ generate_cluster_sizes <- function(n_clusters, m, CV){
 }
 
 # Parameters for single simulated dataset
-n_clusters <- 110
-m_mean <- 100
-CV <- 0.4
-p0 <- 0.48
-p1 <- 0.64
+n_clusters <- 84
+m_mean <- 18
+CV <- 0.98
+p0 <- 0.63
+p1 <- 0.82
 OR <- p0_p1_to_OR(p0, p1) # compute OR
 rho <- 0.20 # ICC
 re_dist <- "gamma"
@@ -654,117 +654,91 @@ df_sim
 ::: {.cell-output .cell-output-stdout}
 
 ```
-    cluster arm size   y
-1         1   0  105  30
-2         2   1   55  34
-3         3   1   58  37
-4         4   1  100  47
-5         5   0   83  47
-6         6   0   59  19
-7         7   1  151 134
-8         8   0   87  74
-9         9   0   68  27
-10       10   0  104  19
-11       11   1   96  38
-12       12   0  140  32
-13       13   0  195  97
-14       14   1   87  74
-15       15   1   47  33
-16       16   1   71  62
-17       17   1   97  54
-18       18   0  108  46
-19       19   0  109  30
-20       20   1   53  32
-21       21   0  144  81
-22       22   1  113  50
-23       23   0  105  62
-24       24   0  119  50
-25       25   0  135  30
-26       26   0   44  22
-27       27   0  138  48
-28       28   1   84  45
-29       29   0  117  30
-30       30   1   72  49
-31       31   1   89  33
-32       32   1   95  71
-33       33   0  158 101
-34       34   1   50  50
-35       35   0   64  45
-36       36   0  129  64
-37       37   1  119  48
-38       38   0   75  44
-39       39   0   91  27
-40       40   1   89  77
-41       41   0   48  15
-42       42   0   39  12
-43       43   1   36  15
-44       44   0   67  26
-45       45   1  114  95
-46       46   0  102  63
-47       47   1  168 122
-48       48   0  163 132
-49       49   1  102  50
-50       50   0   61  38
-51       51   0   96  63
-52       52   1   62  40
-53       53   1  105  34
-54       54   1   63  62
-55       55   1   69  23
-56       56   0   68  21
-57       57   0  132  55
-58       58   0   94  31
-59       59   1   98  41
-60       60   1   51  34
-61       61   1  132 104
-62       62   0  106  65
-63       63   1   24  10
-64       64   1  199 124
-65       65   0  112  32
-66       66   0  198  68
-67       67   1   50  17
-68       68   0  102  74
-69       69   1  234 175
-70       70   0  136  88
-71       71   1  142  78
-72       72   1   98  95
-73       73   0   95  22
-74       74   0   98  41
-75       75   1   85  71
-76       76   1   95  45
-77       77   0  127  46
-78       78   0  145  66
-79       79   0  119  54
-80       80   0   84  61
-81       81   0   72  26
-82       82   0   52  24
-83       83   1   53  22
-84       84   1  103  91
-85       85   0   91  22
-86       86   0   67  46
-87       87   1   93  51
-88       88   1   87  44
-89       89   1  168 113
-90       90   0   89  28
-91       91   0   75  29
-92       92   0  137  75
-93       93   1  140  83
-94       94   1  181  71
-95       95   1  103  76
-96       96   1   63  35
-97       97   1  133  53
-98       98   1  117  89
-99       99   0   62  28
-100     100   0  105  57
-101     101   1   58  42
-102     102   0  110  83
-103     103   0  121  59
-104     104   1   79  33
-105     105   1   99  68
-106     106   1  121  85
-107     107   0   78  39
-108     108   1   76  32
-109     109   1  117  75
-110     110   1  120  75
+   cluster arm size   y
+1        1   1   82  59
+2        2   0   16   6
+3        3   0   10   6
+4        4   0   26  14
+5        5   0   10   9
+6        6   1   11  10
+7        7   1    3   3
+8        8   0   17  15
+9        9   1   18  13
+10      10   0    7   3
+11      11   0   41  22
+12      12   0    3   1
+13      13   0   26  10
+14      14   1   36  34
+15      15   0    5   3
+16      16   0   15  12
+17      17   1   18  12
+18      18   1    3   3
+19      19   1   38  24
+20      20   1   17  14
+21      21   0   22  18
+22      22   1   44  31
+23      23   1    5   5
+24      24   0   73  43
+25      25   0    6   2
+26      26   1    3   3
+27      27   0   13   5
+28      28   1    5   3
+29      29   0    5   3
+30      30   1   14  14
+31      31   0    4   0
+32      32   0    4   4
+33      33   1   31  25
+34      34   0   17  17
+35      35   1    3   3
+36      36   0   16  10
+37      37   0    3   1
+38      38   1   30  28
+39      39   0    7   4
+40      40   1   19  16
+41      41   0   15   7
+42      42   0   20  11
+43      43   1   56  36
+44      44   0    3   1
+45      45   1   13  12
+46      46   1   22  20
+47      47   1   25  21
+48      48   1   21  21
+49      49   0    4   2
+50      50   1   62  55
+51      51   1    7   5
+52      52   1    3   2
+53      53   1    5   4
+54      54   1   13  11
+55      55   1    3   2
+56      56   1    3   3
+57      57   0    6   2
+58      58   1   27  22
+59      59   0    7   3
+60      60   0    5   4
+61      61   0   28  23
+62      62   1    5   5
+63      63   1   11   8
+64      64   0   17  13
+65      65   0   12   6
+66      66   1    6   6
+67      67   0   19  10
+68      68   0   24  20
+69      69   1   10   8
+70      70   1   10   9
+71      71   0   12   5
+72      72   1    3   3
+73      73   0    4   2
+74      74   1    3   3
+75      75   0   19  15
+76      76   1   45  27
+77      77   1   20  15
+78      78   0    3   1
+79      79   1   28  21
+80      80   1  104 100
+81      81   0    6   5
+82      82   0   11   7
+83      83   0   13   4
+84      84   0    3   3
 ```
 
 
@@ -813,14 +787,14 @@ NOTES:
 ::: {.cell}
 
 ```{.r .cell-code}
-simulate_power <- function(n_clusters = 110, 
-                           m_mean = 100, 
-                           CV = 0.4,
-                           p0 = 0.48, 
-                           p1 = 0.64, 
+simulate_power <- function(n_clusters = 84, 
+                           m_mean = 18, 
+                           CV = 0.98,
+                           p0 = 0.63, 
+                           p1 = 0.81, 
                            rho = 0.20,
                            re_dist = "gamma", 
-                           n_sim = 500,
+                           n_sim = 1000,
                            alpha = 0.05, 
                            seed = 20250809) {
   set.seed(seed)
@@ -869,11 +843,11 @@ simulate_power <- function(n_clusters = 110,
 ::: {.cell}
 
 ```{.r .cell-code}
-power_estimate <- simulate_power(n_clusters = 110,
-                                 m_mean = 100,
-                                 CV = 0.4,
-                                 p0 = 0.48,
-                                 p1 = 0.64,
+power_estimate <- simulate_power(n_clusters = 84,
+                                 m_mean = 18,
+                                 CV = 0.98,
+                                 p0 = 0.63,
+                                 p1 = 0.81,
                                  rho = 0.20,
                                  re_dist = "gamma",
                                  n_sim = 1000)
@@ -884,7 +858,7 @@ cat("Estimated power:", round(power_estimate, 3), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Estimated power: 0.952 
+Estimated power: 0.945 
 ```
 
 
@@ -905,9 +879,9 @@ grid <- expand.grid(p0 = p0_vals, p1 = p1_vals)
 
 results <- grid %>%
   rowwise() %>%
-  mutate(power = simulate_power(n_clusters = 110,
-                                m_mean = 100,
-                                CV = 0.4,
+  mutate(power = simulate_power(n_clusters = 84,
+                                m_mean = 18,
+                                CV = 0.98,
                                 p0 = p0,
                                 p1 = p1,
                                 rho = 0.2,
@@ -951,15 +925,15 @@ ggplot(results, aes(x = p1, y = power, color = factor(p0))) +
 
 ```{.r .cell-code}
 # Vector of ICC values to test
-icc_values <- seq(0.05, 0.35, by = 0.02)
+icc_values <- seq(0.05, 0.45, by = 0.02)
 
 # Run power simulations for each ICC
 power_results <- sapply(icc_values, function(rho) {
-  simulate_power(n_clusters = 110,
-                 m_mean = 100,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+  simulate_power(n_clusters = 84,
+                 m_mean = 18,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = rho,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -996,15 +970,15 @@ ggplot(df_power_icc, aes(x = ICC, y = Power)) +
 
 ```{.r .cell-code}
 # Vector of cluster counts to test
-n_clusters_vec <- seq(80, 120, by = 1)
+n_clusters_vec <- seq(30, 110, by = 1)
 
 # Run power simulations for each cluster count
 power_results <- sapply(n_clusters_vec, function(nc) {
   simulate_power(n_clusters = nc,
-                 m_mean = 100,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+                 m_mean = 18,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = 0.20,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -1022,10 +996,10 @@ ggplot(df_power_css, aes(x = Cluster_ss, y = Power)) +
   labs(title = "Power vs Number of total clusters",
        x = "Total number of clusters",
        y = "Estimated power") +
-  scale_y_continuous(breaks = seq(0.70, 1, by = 0.1),
-                     limits = c(0.70, 1),
+  scale_y_continuous(breaks = seq(0.50, 1, by = 0.1),
+                     limits = c(0.50, 1),
                      labels = scales::percent_format(accuracy = 1)) +
-  scale_x_continuous(breaks = seq(80, 120, by = 2)) +
+  scale_x_continuous(breaks = seq(30, 110, by = 5)) +
   theme_minimal()
 ```
 
@@ -1041,15 +1015,15 @@ ggplot(df_power_css, aes(x = Cluster_ss, y = Power)) +
 ::: {.cell}
 
 ```{.r .cell-code}
-m_mean_vec <- seq(50, 250, by = 10)
+m_mean_vec <- seq(2, 40, by = 2)
 
 # Run power simulations for each cluster count
 power_results <- sapply(m_mean_vec, function(n) {
-  simulate_power(n_clusters = 110,
+  simulate_power(n_clusters = 84,
                  m_mean = n,
-                 CV = 0.4,
-                 p0 = 0.48,
-                 p1 = 0.64,
+                 CV = 0.98,
+                 p0 = 0.63,
+                 p1 = 0.81,
                  rho = 0.20,
                  re_dist = "gamma",
                  n_sim = 1000,
@@ -1064,13 +1038,13 @@ df_power_iss <- data.frame(Individual_ss = m_mean_vec, Power = power_results)
 ggplot(df_power_iss, aes(x = Individual_ss, y = Power)) +
   geom_line(color = "darkblue", size = 1.2) +
   geom_point(color = "skyblue") +
-  labs(title = "Power vs Number of total individuals",
-       x = "Total number of individuals",
+  labs(title = "Power vs Average number of individuals per cluster",
+       x = "Average number of individuals per cluster",
        y = "Estimated power") +
   scale_y_continuous(breaks = seq(0.70, 1, by = 0.1),
                      limits = c(0.70, 1),
                      labels = scales::percent_format(accuracy = 1)) +
-  scale_x_continuous(breaks = seq(50, 250, by = 10)) +
+  scale_x_continuous(breaks = seq(2, 40, by = 2)) +
   theme_minimal()
 ```
 
@@ -1086,7 +1060,7 @@ ggplot(df_power_iss, aes(x = Individual_ss, y = Power)) +
 
 -   As per trial protocol
 
--   \>50 clusters per arm =\> cluster number large enough to use normal GLMM (not with restricted pseudo-likelihood and reduced degree of freedom as per guidance according to Thompson & Leyrat & al)
+-   84 clusters in total, 42 per arm =\> cluster number large enough to use normal GLMM (not with restricted pseudo-likelihood and reduced degree of freedom as per guidance according to Thompson & Leyrat & al)
 
 -   Keep gamma distribution throughout
 
@@ -1096,11 +1070,11 @@ ggplot(df_power_iss, aes(x = Individual_ss, y = Power)) +
 ::: {.cell}
 
 ```{.r .cell-code}
-simulate_power_glmer <- function(n_clusters = 110, 
-                                   m_mean = 100, 
-                                   CV = 0.4,
-                                   p0 = 0.48, 
-                                   p1 = 0.64, 
+simulate_power_glmer <- function(n_clusters = 84, 
+                                   m_mean = 18, 
+                                   CV = 0.98,
+                                   p0 = 0.63, 
+                                   p1 = 0.81, 
                                    rho = 0.20,
                                    re_dist = "gamma", 
                                    n_sim = 1000,
@@ -1165,11 +1139,11 @@ simulate_power_glmer <- function(n_clusters = 110,
 ::: {.cell}
 
 ```{.r .cell-code}
-power_estimate <- simulate_power_glmer(n_clusters = 110,
-                                         m_mean = 100,
-                                         CV = 0.4,
-                                         p0 = 0.48,
-                                         p1 = 0.64,
+power_estimate <- simulate_power_glmer(n_clusters = 84,
+                                         m_mean = 18,
+                                         CV = 0.98,
+                                         p0 = 0.63,
+                                         p1 = 0.81,
                                          rho = 0.20,
                                          re_dist = "gamma",
                                          n_sim = 1000)
@@ -1180,13 +1154,15 @@ cat("Estimated power (GLMM):", round(power_estimate, 3), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Estimated power (GLMM): 0.967 
+Estimated power (GLMM): 0.981 
 ```
 
 
 :::
 :::
 
+
+Currently, the cluster size variation (CV = 0.98) is too high, estimation is imprecise. We need to work on refining the eligibility criteria for the clusters (physicians)
 
 ### **(2.4.3) Vary effect sizes**
 
@@ -1361,11 +1337,11 @@ Estimated power (GLMM): 0.967
 
 ## General parameters
 set.seed(20250809)
-n_clusters <- 110
-m_mean <- 100
-CV <- 0.4
-p0 <- 0.48
-p1 <- 0.65
+n_clusters <- 84
+m_mean <- 18
+CV <- 0.98
+p0 <- 0.63
+p1 <- 0.81
 OR <- p0_p1_to_OR(p0, p1)
 rho <- 0.20 # ICC (on latent logit scale)
 re_dist <- "gamma" # distribution for u_j, keep it conservative
@@ -1373,7 +1349,7 @@ re_dist <- "gamma" # distribution for u_j, keep it conservative
 # Individual-level covariates
 age_mean <- 35
 age_sd <- 12
-sex_prob <- 0.48
+sex_prob <- 0.40
 
 ## Generate cluster structure
 sizes <- generate_cluster_sizes(n_clusters, m_mean, CV)
@@ -1458,7 +1434,7 @@ cat("Mean baseline_rate =", round(mean(baseline_rate),3), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Mean baseline_rate = 0.48 
+Mean baseline_rate = 0.615 
 ```
 
 
@@ -1484,17 +1460,17 @@ print(head(df_sim, 10))
 ::: {.cell-output .cell-output-stdout}
 
 ```
-    cluster arm size   y baseline_rate site         u_j
-1         1   0   82  67     0.4519775    6  1.31055067
-23        2   1  100  65     0.3529948    2 -0.13905323
-34        3   0  120  39     0.4050030    6 -0.19912199
-45        4   1   50 159     0.8098946    3  0.03314559
-56        5   0  118   8     0.3338821    6 -1.04309293
-67        6   1  113  54     0.3202120    5  0.97976843
-78        7   0  207  44     0.2941121    6 -0.19746178
-89        8   1  138  77     0.4192396    3 -0.41420742
-100       9   1  104  87     0.7307740    7  4.51267711
-2        10   1  103  56     0.6370512    3  1.42471666
+   cluster arm size  y baseline_rate site         u_j
+1        1   1    3 12     0.5241710    6 -0.54533049
+12       2   0   15 12     0.6786808    7 -0.02958850
+23       3   0   20 21     0.5343476    7  0.13334179
+34       4   1    5  4     0.5292495    4  0.02987162
+45       5   0   33  4     0.8141927    3 -0.50985282
+56       6   0    5 11     0.7074863    7 -1.00681936
+67       7   1    3 29     0.4490206    5 -0.34833021
+78       8   0    5  2     0.6245495    2 -0.43983164
+84       9   1   30 24     0.6804400    5  0.33511213
+2       10   0   13 12     0.5644116    5  1.21584720
 ```
 
 
@@ -1520,57 +1496,57 @@ print(head(df_ind, 50))
 ::: {.cell-output .cell-output-stdout}
 
 ```
-   cluster arm       age sex site baseline_rate      u_j         p y
-1        1   0 50.184969   0    6     0.4519775 1.310551 0.7566069 1
-2        1   0 35.185360   1    6     0.4519775 1.310551 0.7566069 1
-3        1   0 21.950398   1    6     0.4519775 1.310551 0.7566069 1
-4        1   0 51.441429   1    6     0.4519775 1.310551 0.7566069 0
-5        1   0 14.486206   1    6     0.4519775 1.310551 0.7566069 0
-6        1   0 28.205018   0    6     0.4519775 1.310551 0.7566069 1
-7        1   0 27.604513   0    6     0.4519775 1.310551 0.7566069 1
-8        1   0 47.794689   1    6     0.4519775 1.310551 0.7566069 1
-9        1   0 36.236468   1    6     0.4519775 1.310551 0.7566069 1
-10       1   0 30.562777   0    6     0.4519775 1.310551 0.7566069 1
-11       1   0 41.992753   0    6     0.4519775 1.310551 0.7566069 1
-12       1   0 62.272148   0    6     0.4519775 1.310551 0.7566069 1
-13       1   0 50.226119   0    6     0.4519775 1.310551 0.7566069 1
-14       1   0 33.079627   1    6     0.4519775 1.310551 0.7566069 0
-15       1   0 58.634400   0    6     0.4519775 1.310551 0.7566069 1
-16       1   0 36.462741   1    6     0.4519775 1.310551 0.7566069 1
-17       1   0 39.363970   0    6     0.4519775 1.310551 0.7566069 1
-18       1   0 45.584932   1    6     0.4519775 1.310551 0.7566069 1
-19       1   0 48.276527   1    6     0.4519775 1.310551 0.7566069 1
-20       1   0 37.113217   1    6     0.4519775 1.310551 0.7566069 1
-21       1   0 39.371232   0    6     0.4519775 1.310551 0.7566069 1
-22       1   0 52.818289   0    6     0.4519775 1.310551 0.7566069 0
-23       1   0 17.004545   0    6     0.4519775 1.310551 0.7566069 1
-24       1   0 39.792099   0    6     0.4519775 1.310551 0.7566069 1
-25       1   0 28.606149   1    6     0.4519775 1.310551 0.7566069 1
-26       1   0 36.538196   0    6     0.4519775 1.310551 0.7566069 1
-27       1   0 24.737769   0    6     0.4519775 1.310551 0.7566069 1
-28       1   0 49.882153   1    6     0.4519775 1.310551 0.7566069 1
-29       1   0 15.160488   1    6     0.4519775 1.310551 0.7566069 1
-30       1   0 45.825762   0    6     0.4519775 1.310551 0.7566069 1
-31       1   0 32.140988   0    6     0.4519775 1.310551 0.7566069 1
-32       1   0 50.646795   1    6     0.4519775 1.310551 0.7566069 1
-33       1   0 37.539867   1    6     0.4519775 1.310551 0.7566069 1
-34       1   0 29.082056   0    6     0.4519775 1.310551 0.7566069 1
-35       1   0 30.135835   0    6     0.4519775 1.310551 0.7566069 0
-36       1   0 32.396708   0    6     0.4519775 1.310551 0.7566069 0
-37       1   0 46.740452   1    6     0.4519775 1.310551 0.7566069 1
-38       1   0 25.371047   0    6     0.4519775 1.310551 0.7566069 1
-39       1   0 28.575736   1    6     0.4519775 1.310551 0.7566069 1
-40       1   0 49.125674   0    6     0.4519775 1.310551 0.7566069 1
-41       1   0  9.564147   0    6     0.4519775 1.310551 0.7566069 1
-42       1   0 44.735843   1    6     0.4519775 1.310551 0.7566069 1
-43       1   0 40.397120   0    6     0.4519775 1.310551 0.7566069 1
-44       1   0 35.100909   0    6     0.4519775 1.310551 0.7566069 1
-45       1   0 32.056917   0    6     0.4519775 1.310551 0.7566069 1
-46       1   0 36.502836   1    6     0.4519775 1.310551 0.7566069 1
-47       1   0 37.577357   1    6     0.4519775 1.310551 0.7566069 1
-48       1   0 32.917635   0    6     0.4519775 1.310551 0.7566069 1
-49       1   0 28.526577   1    6     0.4519775 1.310551 0.7566069 1
-50       1   0 43.859636   0    6     0.4519775 1.310551 0.7566069 1
+   cluster arm       age sex site baseline_rate        u_j         p y
+1        1   1 43.487902   1    6     0.5241710 -0.5453305 0.7217300 0
+2        1   1 36.093478   0    6     0.5241710 -0.5453305 0.7217300 1
+3        1   1 35.830547   0    6     0.5241710 -0.5453305 0.7217300 1
+4        1   1 61.808917   0    6     0.5241710 -0.5453305 0.7217300 1
+5        1   1 33.756109   0    6     0.5241710 -0.5453305 0.7217300 0
+6        1   1 21.832337   0    6     0.5241710 -0.5453305 0.7217300 1
+7        1   1 41.505355   1    6     0.5241710 -0.5453305 0.7217300 1
+8        1   1 26.195464   0    6     0.5241710 -0.5453305 0.7217300 1
+9        1   1 41.345142   1    6     0.5241710 -0.5453305 0.7217300 1
+10       1   1 48.646471   0    6     0.5241710 -0.5453305 0.7217300 1
+11       1   1 25.924216   1    6     0.5241710 -0.5453305 0.7217300 1
+12       1   1 25.958232   0    6     0.5241710 -0.5453305 0.7217300 1
+13       1   1 58.882986   1    6     0.5241710 -0.5453305 0.7217300 0
+14       1   1 33.900753   0    6     0.5241710 -0.5453305 0.7217300 1
+15       1   1 49.396689   1    6     0.5241710 -0.5453305 0.7217300 1
+16       2   0 19.820009   0    7     0.6786808 -0.0295885 0.7060936 1
+17       2   0 49.845996   0    7     0.6786808 -0.0295885 0.7060936 0
+18       2   0 25.980348   0    7     0.6786808 -0.0295885 0.7060936 1
+19       2   0 34.500022   0    7     0.6786808 -0.0295885 0.7060936 1
+20       2   0 56.066420   1    7     0.6786808 -0.0295885 0.7060936 1
+21       2   0  8.990755   0    7     0.6786808 -0.0295885 0.7060936 0
+22       2   0 44.342623   1    7     0.6786808 -0.0295885 0.7060936 1
+23       2   0 52.066237   0    7     0.6786808 -0.0295885 0.7060936 1
+24       2   0 52.103608   0    7     0.6786808 -0.0295885 0.7060936 0
+25       2   0 23.644091   1    7     0.6786808 -0.0295885 0.7060936 1
+26       2   0 40.964825   1    7     0.6786808 -0.0295885 0.7060936 1
+27       2   0 43.050042   0    7     0.6786808 -0.0295885 0.7060936 0
+28       2   0 36.919039   0    7     0.6786808 -0.0295885 0.7060936 0
+29       2   0 25.352254   0    7     0.6786808 -0.0295885 0.7060936 1
+30       2   0 27.091611   1    7     0.6786808 -0.0295885 0.7060936 1
+31       2   0 33.633571   1    7     0.6786808 -0.0295885 0.7060936 1
+32       2   0 39.662819   0    7     0.6786808 -0.0295885 0.7060936 0
+33       2   0 22.123820   0    7     0.6786808 -0.0295885 0.7060936 0
+34       2   0 40.446962   0    7     0.6786808 -0.0295885 0.7060936 0
+35       2   0 44.056765   1    7     0.6786808 -0.0295885 0.7060936 1
+36       3   0 26.055303   0    7     0.5343476  0.1333418 0.6757618 0
+37       3   0 34.919207   0    7     0.5343476  0.1333418 0.6757618 0
+38       3   0 39.721004   0    7     0.5343476  0.1333418 0.6757618 1
+39       3   0 25.793194   0    7     0.5343476  0.1333418 0.6757618 1
+40       3   0 23.434322   0    7     0.5343476  0.1333418 0.6757618 0
+41       3   0 22.620895   0    7     0.5343476  0.1333418 0.6757618 1
+42       3   0 31.902922   0    7     0.5343476  0.1333418 0.6757618 1
+43       3   0 37.658602   0    7     0.5343476  0.1333418 0.6757618 1
+44       3   0 45.585714   0    7     0.5343476  0.1333418 0.6757618 1
+45       3   0 18.930409   0    7     0.5343476  0.1333418 0.6757618 1
+46       3   0 45.909040   1    7     0.5343476  0.1333418 0.6757618 1
+47       3   0 42.280878   0    7     0.5343476  0.1333418 0.6757618 0
+48       3   0 34.655976   0    7     0.5343476  0.1333418 0.6757618 0
+49       3   0 38.711691   1    7     0.5343476  0.1333418 0.6757618 1
+50       3   0 50.531720   0    7     0.5343476  0.1333418 0.6757618 0
 ```
 
 
@@ -1584,7 +1560,7 @@ cat("\nOverall N =", sum(df_sim$size), "individuals across", n_clusters, "cluste
 
 ```
 
-Overall N = 10795 individuals across 110 clusters
+Overall N = 1494 individuals across 84 clusters
 ```
 
 
@@ -1602,8 +1578,8 @@ for(i in seq_len(nrow(arm_rates))){
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Arm 0 observed IGRA testing rate: 0.433 
-Arm 1 observed IGRA testing rate: 0.625 
+Arm 0 observed IGRA testing rate: 0.667 
+Arm 1 observed IGRA testing rate: 0.797 
 ```
 
 
@@ -1743,19 +1719,19 @@ results_table %>%
 <tbody>
   <tr>
    <td style="text-align:left;"> Unadjusted </td>
-   <td style="text-align:left;"> 2.466 </td>
-   <td style="text-align:left;"> 1.707 </td>
-   <td style="text-align:left;"> 3.561 </td>
-   <td style="text-align:left;"> 0.000 </td>
+   <td style="text-align:left;"> 1.853 </td>
+   <td style="text-align:left;"> 1.188 </td>
+   <td style="text-align:left;"> 2.888 </td>
+   <td style="text-align:left;"> 0.007 </td>
    <td style="text-align:left;"> NA </td>
    <td style="text-align:left;"> NA </td>
    <td style="text-align:left;"> NA </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Adjusted for strat only </td>
-   <td style="text-align:left;"> 1.755 </td>
-   <td style="text-align:left;"> 1.290 </td>
-   <td style="text-align:left;"> 2.388 </td>
+   <td style="text-align:left;"> 2.266 </td>
+   <td style="text-align:left;"> 1.615 </td>
+   <td style="text-align:left;"> 3.179 </td>
    <td style="text-align:left;"> 0.000 </td>
    <td style="text-align:left;"> NA </td>
    <td style="text-align:left;"> NA </td>
@@ -1763,13 +1739,13 @@ results_table %>%
   </tr>
   <tr>
    <td style="text-align:left;"> Fully adjusted; age spline </td>
-   <td style="text-align:left;"> 1.760 </td>
-   <td style="text-align:left;"> 1.292 </td>
-   <td style="text-align:left;"> 2.396 </td>
+   <td style="text-align:left;"> 2.281 </td>
+   <td style="text-align:left;"> 1.627 </td>
+   <td style="text-align:left;"> 3.199 </td>
    <td style="text-align:left;"> 0.000 </td>
-   <td style="text-align:left;"> 1.264 </td>
-   <td style="text-align:left;"> 1.099 </td>
-   <td style="text-align:left;"> 1.430 </td>
+   <td style="text-align:left;"> 1.223 </td>
+   <td style="text-align:left;"> 1.121 </td>
+   <td style="text-align:left;"> 1.325 </td>
   </tr>
 </tbody>
 </table>
@@ -1780,6 +1756,8 @@ results_table %>%
 
 
 CAVE: This is 1 randomly simulated dataset.
+
+Also: Add third individual-level covariate (region of origin)
 
 Due to correlation structure the adjustment for baseline outcome rate (part of the stratification factors) increases power and precision. The further adjustment for individual-level covariates does not change much, since there is no simulated correlation at that level.
 
@@ -1794,19 +1772,19 @@ RR only constructed for primary model (fully adjusted model)
 
 ```{.r .cell-code}
 simulate_crt <- function(
-  n_clusters = 110,
-  m_mean = 100,
-  CV = 0.4,
-  p0 = 0.48,
-  p1 = 0.64,
-  rho = 0.2,
+  n_clusters = 84,
+  m_mean = 18,
+  CV = 0.98,
+  p0 = 0.63,
+  p1 = 0.81,
+  rho = 0.20,
   re_dist = "gamma",
   alpha = 0.3, # weak-moderate correlation between u_j and baseline outcome rate
   tau = 0.45, # SD of baseline noise
   beta_baseline = 0.2, # weak-moderate pos correlation: baseline outcome rate -> outcome, independent of u_j
   age_mean = 35,
   age_sd = 12,
-  sex_prob = 0.48
+  sex_prob = 0.40
 ){
 
   # (1) Compute OR and intercept
@@ -1980,7 +1958,7 @@ cat("Estimated power (unadjusted)  =", round(power_unadj,4), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Estimated power (unadjusted)  = 0.94 
+Estimated power (unadjusted)  = 0.98 
 ```
 
 
@@ -1993,7 +1971,7 @@ cat("Estimated power (fully adjusted) =", round(power_adj,4), "\n")
 ::: {.cell-output .cell-output-stdout}
 
 ```
-Estimated power (fully adjusted) = 0.98 
+Estimated power (fully adjusted) = 0.99 
 ```
 
 
@@ -2009,19 +1987,19 @@ summary(results[,c("OR_unadj","OR_unadj_lower","OR_unadj_upper",
 
 ```
     OR_unadj     OR_unadj_lower   OR_unadj_upper      OR_adj     
- Min.   :1.028   Min.   :0.7257   Min.   :1.455   Min.   :1.244  
- 1st Qu.:1.656   1st Qu.:1.1517   1st Qu.:2.398   1st Qu.:1.695  
- Median :1.836   Median :1.2850   Median :2.651   Median :1.909  
- Mean   :1.898   Mean   :1.3161   Mean   :2.740   Mean   :1.929  
- 3rd Qu.:2.166   3rd Qu.:1.4891   3rd Qu.:3.047   3rd Qu.:2.128  
- Max.   :2.832   Max.   :1.9045   Max.   :4.279   Max.   :2.611  
+ Min.   :1.421   Min.   :0.8232   Min.   :2.360   Min.   :1.480  
+ 1st Qu.:2.075   1st Qu.:1.2656   1st Qu.:3.387   1st Qu.:2.061  
+ Median :2.354   Median :1.4809   Median :3.733   Median :2.449  
+ Mean   :2.460   Mean   :1.5329   Mean   :3.957   Mean   :2.557  
+ 3rd Qu.:2.820   3rd Qu.:1.7779   3rd Qu.:4.479   3rd Qu.:2.799  
+ Max.   :4.223   Max.   :2.4439   Max.   :7.297   Max.   :5.040  
   OR_adj_lower     OR_adj_upper  
- Min.   :0.9184   Min.   :1.684  
- 1st Qu.:1.2415   1st Qu.:2.269  
- Median :1.4239   Median :2.568  
- Mean   :1.4299   Mean   :2.605  
- 3rd Qu.:1.5843   3rd Qu.:2.899  
- Max.   :1.9553   Max.   :3.627  
+ Min.   :0.9115   Min.   :2.310  
+ 1st Qu.:1.3575   1st Qu.:3.129  
+ Median :1.6095   Median :3.685  
+ Mean   :1.6821   Mean   :3.896  
+ 3rd Qu.:1.8696   3rd Qu.:4.197  
+ Max.   :3.1847   Max.   :7.976  
 ```
 
 
@@ -2037,7 +2015,7 @@ If we use batch-randomization (all clusters randomized at once and no new cluste
 
 -   Exact 1:1 overall allocation:
 
-    -   55 Control / 55 Intervention
+    -   42 Control / 42 Intervention
 
 -   Soft site stratification:
 
@@ -2059,7 +2037,7 @@ If we use batch-randomization (all clusters randomized at once and no new cluste
 ```{.r .cell-code}
 set.seed(20250820)
 
-n_clusters <- 110
+n_clusters <- 84
 site <- factor(sample(
   1:7, n_clusters, replace = TRUE,
   prob = c(0.05, 0.15, 0.20, 0.10, 0.15, 0.25, 0.10)
@@ -2067,7 +2045,7 @@ site <- factor(sample(
 
 cluster_data <- data.frame(
   cluster_id = 1:n_clusters,
-  baseline_rate = runif(n_clusters, 0.45, 0.75),
+  baseline_rate = runif(n_clusters, 0.35, 0.65),
   site = site
 )
 
@@ -2120,117 +2098,91 @@ print(final_result)
 ::: {.cell-output .cell-output-stdout}
 
 ```
-    cluster_id baseline_rate site    final_arm
-1            1     0.5648712    4 Intervention
-2            2     0.6082518    6 Intervention
-3            3     0.6782608    1 Intervention
-4            4     0.6159968    7      Control
-5            5     0.6251654    6 Intervention
-6            6     0.4843489    3      Control
-7            7     0.7089731    2 Intervention
-8            8     0.6031032    6 Intervention
-9            9     0.5041871    6 Intervention
-10          10     0.7092656    1      Control
-11          11     0.5701395    2      Control
-12          12     0.5326763    6 Intervention
-13          13     0.6573211    6 Intervention
-14          14     0.4511044    5 Intervention
-15          15     0.5021090    6 Intervention
-16          16     0.5842421    6 Intervention
-17          17     0.4615362    4 Intervention
-18          18     0.6424458    5      Control
-19          19     0.6349092    6      Control
-20          20     0.5250874    3 Intervention
-21          21     0.7187297    6 Intervention
-22          22     0.6905047    5      Control
-23          23     0.5687591    1      Control
-24          24     0.5065764    3 Intervention
-25          25     0.7257611    6      Control
-26          26     0.5012752    1      Control
-27          27     0.7443693    7 Intervention
-28          28     0.6372378    3      Control
-29          29     0.6869562    4      Control
-30          30     0.5314816    6      Control
-31          31     0.6850968    3      Control
-32          32     0.5714507    4 Intervention
-33          33     0.5283994    7      Control
-34          34     0.5214659    6      Control
-35          35     0.5622420    6 Intervention
-36          36     0.5819583    5 Intervention
-37          37     0.5594293    7 Intervention
-38          38     0.5733779    5 Intervention
-39          39     0.7452266    2 Intervention
-40          40     0.5311654    3 Intervention
-41          41     0.6038346    1      Control
-42          42     0.5152730    5      Control
-43          43     0.6302194    6      Control
-44          44     0.4952863    3 Intervention
-45          45     0.7158604    6 Intervention
-46          46     0.6933622    6      Control
-47          47     0.6612075    4 Intervention
-48          48     0.6715312    2      Control
-49          49     0.5923413    2      Control
-50          50     0.5417027    3 Intervention
-51          51     0.5798992    3 Intervention
-52          52     0.7474203    4      Control
-53          53     0.5415370    1 Intervention
-54          54     0.5459414    6      Control
-55          55     0.6831044    4      Control
-56          56     0.5066814    6      Control
-57          57     0.5704573    6 Intervention
-58          58     0.6853412    2      Control
-59          59     0.4588674    5      Control
-60          60     0.4601578    4 Intervention
-61          61     0.6074277    3      Control
-62          62     0.7436995    1 Intervention
-63          63     0.5216729    3      Control
-64          64     0.6970168    6      Control
-65          65     0.4689641    3 Intervention
-66          66     0.4893029    3      Control
-67          67     0.6629724    4      Control
-68          68     0.5282053    2      Control
-69          69     0.5268465    1 Intervention
-70          70     0.7272362    6      Control
-71          71     0.7039242    3      Control
-72          72     0.6017572    4 Intervention
-73          73     0.5174182    5      Control
-74          74     0.6157504    5      Control
-75          75     0.6790600    3 Intervention
-76          76     0.4916715    2 Intervention
-77          77     0.4721399    7 Intervention
-78          78     0.6796531    4 Intervention
-79          79     0.6034762    7 Intervention
-80          80     0.5190159    1      Control
-81          81     0.4860802    4      Control
-82          82     0.6430469    5      Control
-83          83     0.5182106    2      Control
-84          84     0.7292376    6 Intervention
-85          85     0.6129707    2      Control
-86          86     0.7226581    3 Intervention
-87          87     0.6871706    4 Intervention
-88          88     0.6971753    7      Control
-89          89     0.6152735    5 Intervention
-90          90     0.6535769    3      Control
-91          91     0.6080374    5 Intervention
-92          92     0.4720418    6      Control
-93          93     0.5681713    3 Intervention
-94          94     0.4552149    4 Intervention
-95          95     0.5374114    4      Control
-96          96     0.5067031    2 Intervention
-97          97     0.7479454    7      Control
-98          98     0.7176868    5 Intervention
-99          99     0.7361395    3      Control
-100        100     0.4823588    4      Control
-101        101     0.5781359    2 Intervention
-102        102     0.5603818    3      Control
-103        103     0.6978024    3      Control
-104        104     0.6898427    3      Control
-105        105     0.6530107    4 Intervention
-106        106     0.6196166    4      Control
-107        107     0.5741268    6 Intervention
-108        108     0.5700992    6      Control
-109        109     0.4881324    7 Intervention
-110        110     0.6614110    6 Intervention
+   cluster_id baseline_rate site    final_arm
+1           1     0.5055127    4 Intervention
+2           2     0.4308069    6      Control
+3           3     0.6309318    1 Intervention
+4           4     0.5829530    7 Intervention
+5           5     0.5397852    6 Intervention
+6           6     0.4321546    3 Intervention
+7           7     0.5446242    2 Intervention
+8           8     0.3965107    6      Control
+9           9     0.4836322    6      Control
+10         10     0.6162682    1      Control
+11         11     0.6090239    2      Control
+12         12     0.5005644    6      Control
+13         13     0.6034779    6 Intervention
+14         14     0.5563255    5      Control
+15         15     0.4810453    6      Control
+16         16     0.6341021    6      Control
+17         17     0.5228288    4      Control
+18         18     0.4573054    5      Control
+19         19     0.4577337    6 Intervention
+20         20     0.4572299    3      Control
+21         21     0.6190049    6      Control
+22         22     0.6238735    5      Control
+23         23     0.3792085    1      Control
+24         24     0.3979843    3 Intervention
+25         25     0.5827194    6 Intervention
+26         26     0.3678664    1 Intervention
+27         27     0.4648712    7 Intervention
+28         28     0.5082518    3 Intervention
+29         29     0.5782608    4      Control
+30         30     0.5159968    6      Control
+31         31     0.5251654    3 Intervention
+32         32     0.3843489    4 Intervention
+33         33     0.6089731    7      Control
+34         34     0.5031032    6      Control
+35         35     0.4041871    6 Intervention
+36         36     0.6092656    5 Intervention
+37         37     0.4701395    7      Control
+38         38     0.4326763    5 Intervention
+39         39     0.5573211    2      Control
+40         40     0.3511044    3      Control
+41         41     0.4021090    1      Control
+42         42     0.4842421    5      Control
+43         43     0.3615362    6      Control
+44         44     0.5424458    3      Control
+45         45     0.5349092    6      Control
+46         46     0.4250874    6 Intervention
+47         47     0.6187297    4 Intervention
+48         48     0.5905047    2 Intervention
+49         49     0.4687591    2      Control
+50         50     0.4065764    3      Control
+51         51     0.6257611    3 Intervention
+52         52     0.4012752    4      Control
+53         53     0.6443693    1      Control
+54         54     0.5372378    6 Intervention
+55         55     0.5869562    4 Intervention
+56         56     0.4314816    6 Intervention
+57         57     0.5850968    6 Intervention
+58         58     0.4714507    2      Control
+59         59     0.4283994    5      Control
+60         60     0.4214659    4 Intervention
+61         61     0.4622420    3 Intervention
+62         62     0.4819583    1 Intervention
+63         63     0.4594293    3      Control
+64         64     0.4733779    6 Intervention
+65         65     0.6452266    3 Intervention
+66         66     0.4311654    3      Control
+67         67     0.5038346    4      Control
+68         68     0.4152730    2 Intervention
+69         69     0.5302194    1 Intervention
+70         70     0.3952863    6 Intervention
+71         71     0.6158604    3      Control
+72         72     0.5933622    4      Control
+73         73     0.5612075    5      Control
+74         74     0.5715312    5 Intervention
+75         75     0.4923413    3      Control
+76         76     0.4417027    2 Intervention
+77         77     0.4798992    7 Intervention
+78         78     0.6474203    4 Intervention
+79         79     0.4415370    7 Intervention
+80         80     0.4459414    1      Control
+81         81     0.5831044    4 Intervention
+82         82     0.4066814    5 Intervention
+83         83     0.4704573    2 Intervention
+84         84     0.5853412    6      Control
 ```
 
 
@@ -2260,7 +2212,7 @@ print(table(final_result$final_arm))
 ```
 
      Control Intervention 
-          55           55 
+          42           42 
 ```
 
 
@@ -2290,12 +2242,12 @@ print(table(final_result$site, final_result$final_arm))
    
     Control Intervention
   1       5            4
-  2       7            5
-  3      12           10
-  4       8           10
-  5       7            6
-  6      12           15
-  7       4            5
+  2       4            5
+  3       8            7
+  4       5            7
+  5       6            4
+  6      12           11
+  7       2            4
 ```
 
 
@@ -2323,7 +2275,7 @@ print(tapply(final_result$baseline_rate, final_result$final_arm, mean))
 
 ```
      Control Intervention 
-   0.6069564    0.5909047 
+   0.5044568    0.5057797 
 ```
 
 
